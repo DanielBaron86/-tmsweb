@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
@@ -8,11 +8,22 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthServices {
+
+  logout() {
+    this.#tokenString.set(null);
+    localStorage.removeItem('userToken');
+    this.router.navigate(['/login']);
+  }
+  redirectToLogin() {
+      this.router.navigate(['/login']);
+  }
   private http = inject(HttpClient);
   private router = inject(Router);
  
   readonly apiUrl = 'https://tmsapi.local/api/v1/users/login';
   readonly #tokenString = signal<string | null>(null);
+
+  isAuthenticated = computed(() => this.#tokenString() !== null);
 
   login(username: string, password: string, keepLoggeddIn: boolean = false) {
     const body = { username:"supervisor", password:"supervisor" };

@@ -28,7 +28,6 @@ export class DropdownItemTwoComponent {
   });
 
   handleClick(event: Event): void {
-    console.log('Dropdown item clicked:', event);
     this.itemClick.emit();
     this.click.emit();
   }
