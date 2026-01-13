@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { LoginResponse } from '../../models/user-models';
+import e from 'express';
 
 
 @Injectable({
@@ -9,14 +11,21 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthServices {
 
+  keepLoggeddIn= false;
+
   logout() {
     this.#tokenString.set(null);
-    localStorage.removeItem('userToken');
+    if(!this.keepLoggeddIn){
+      localStorage.removeItem('userToken');
+    }
     this.router.navigate(['/login']);
   }
+
   redirectToLogin() {
       this.router.navigate(['/login']);
   }
+
+
   private http = inject(HttpClient);
   private router = inject(Router);
  
@@ -26,18 +35,18 @@ export class AuthServices {
   isAuthenticated = computed(() => this.#tokenString() !== null);
 
   login(username: string, password: string, keepLoggeddIn: boolean = false) {
-    const body = { username:"supervisor", password:"supervisor" };
+    this.keepLoggeddIn = keepLoggeddIn;
+    const body = { username:username, password:password };
     return this.http.post(this.apiUrl,
       body
-      ,{    
-      responseType: 'text'
-     })
+      )
      .pipe(
       tap( (tokenString) =>{
-        this.#tokenString.set(tokenString);
+        const response = tokenString as LoginResponse;
+        this.#tokenString.set(response.Token);
         
         if(keepLoggeddIn){
-          localStorage.setItem('userToken', tokenString);
+          localStorage.setItem('userToken', response.Token);
         }
         this.router.navigate(['/main']);
       }
@@ -45,4 +54,4 @@ export class AuthServices {
       ).subscribe();
 
     }
-}
+  }    

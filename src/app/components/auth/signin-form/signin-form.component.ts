@@ -15,8 +15,14 @@ import { FormsModule } from '@angular/forms';
 export class SigninFormComponent {
 
 
+
 readonly authService = inject(AuthServices)
  
+
+constructor(){
+
+}
+
  inputValueEmail = '';
  inputValuePassword = '';
    
@@ -44,5 +50,12 @@ readonly authService = inject(AuthServices)
 
   onKeepMeLoggedIn($event:boolean){
     this.isChecked=$event;
+       const storedToken = localStorage.getItem('userToken');
+      if (storedToken) {
+        console.log('Refreshing token from storage',storedToken);
+        /// Implement TOKEN REFRESH LOGIC  AND API ENDPOINT HERE
+      }else{
+        console.log('No token found in storage');   
+    }
   }
 }
