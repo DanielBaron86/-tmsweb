@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { CanActivateAuthGuard } from './components/auth/guards/can-activate';
+import {AddGoodTypes} from './pages/goods/add-good-types/add-good-types';
 
 export const routes: Routes = [
    {
@@ -29,7 +30,10 @@ export const routes: Routes = [
          path: "good_types", loadComponent: () => import('./pages/goods/good-types/good-types').then(m => m.GoodTypes),
        },
        {
-         path: "good_types/add",loadComponent: () => import('./pages/goods/good-types/good-types').then(m => m.GoodTypes),
+         path: "base_types",loadComponent: () => import('./pages/goods/base-types-component/base-types-component').then(m => m.BaseTypesComponent),
+       },
+       {
+         path: "good_types/add",loadComponent: () => import('./pages/goods/add-good-types/add-good-types').then(m => m.AddGoodTypes),
        }
      ]
    },

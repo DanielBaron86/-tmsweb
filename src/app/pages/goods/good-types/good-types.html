@@ -1,4 +1,10 @@
-good types
-@for (goodType of goodService.goodstypesList(); track goodType.id ) {
+
+@if (goodService.goodstypes.hasValue()){
+  @for (goodType of goodService.goodstypes.value(); track goodType.id ) {
     <li>{{ goodType.name }} {{ goodType.description }}</li>
+  }
+}
+
+@if (goodService.goodstypes.isLoading()){
+  <p>Loading</p>
 }

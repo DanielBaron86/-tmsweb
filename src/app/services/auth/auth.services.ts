@@ -17,9 +17,11 @@ export class AuthServices {
   private router = inject(Router);
 
   readonly apiUrl = 'https://tmsapi.danielsplaygrounds.com/api/v1/users/login';
-  readonly #tokenString = signal<string | null>('');
+  readonly #tokenString = signal<string | null>(null);
   keepLoggeddIn= false;
-  readonly tokenString = this.#tokenString.asReadonly();
+  get tokenString() {
+    return this.#tokenString.asReadonly()
+  }
 
   isAuthenticated = computed(() => this.#tokenString() !== null);
 
@@ -47,9 +49,9 @@ export class AuthServices {
       } )
       ).subscribe( (tokenString) => {
         const response = tokenString as LoginResponse;
-        console.log('response.Token',response.token);
         this.#tokenString.set(response.token);
-    
+        console.log('response.Token',this.tokenString);
+
         if(keepLoggeddIn){
           localStorage.setItem('userToken', response.token);
         }

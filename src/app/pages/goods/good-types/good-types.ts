@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {GoodsService} from '../../../services/goods/goods-service';
+import {AuthServices} from '../../../services/auth/auth.services';
 
 @Component({
   selector: 'app-good-types',
@@ -7,10 +8,13 @@ import {GoodsService} from '../../../services/goods/goods-service';
   templateUrl: './good-types.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoodTypes {
+export class GoodTypes  implements OnInit{
   readonly  goodService = inject(GoodsService);
-  constructor(){
-    this.goodService.getGoodTypes()
+  readonly AuthServices = inject(AuthServices);
+  ngOnInit() {
+    if (this.goodService.goodstypes.hasValue()){
+      console.log('GoodTypes',this.goodService.goodstypes.value());
+    }
   }
-  
+
 }

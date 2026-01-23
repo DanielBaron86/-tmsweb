@@ -4,13 +4,13 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 
 import { routes } from './app.routes';
-import {loggingInterceptor} from './interceptors/http-interceptors';
+import {authInterceptor, loggingInterceptor} from './interceptors/http-interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes,withComponentInputBinding()),
-    provideHttpClient(withInterceptors([loggingInterceptor]), withFetch()),
+    provideHttpClient(withInterceptors([loggingInterceptor,authInterceptor]), withFetch()),
     provideClientHydration(withEventReplay())
   ]
 };
