@@ -5,7 +5,7 @@
       <div class="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
         <div class="space-y-6">
           <form novalidate="" class="ng-untouched ng-pristine ng-valid">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-4">
               <div>
                 <app-input-field id="baseDesc" name="baseDesc" type="text" placeholder="Description" [(value)]="editableItem().description" >
                 </app-input-field>
@@ -15,9 +15,16 @@
                 </app-input-field>
               </div>
               <div>
-                <app-button classname="w-full" size="sm" [variant]="'primary'" (click)="Save()" >
-                  Save
-                </app-button>
+                <div class="flex gap-3">
+                  <app-button classname="w-full" size="sm" [variant]="'primary'" (click)="Save()" >
+                    Save
+                  </app-button>
+                  @if (operation() == 'new'){
+                    <app-button classname="w-full" size="sm" [variant]="'outline'" (click)="Cancel()" >
+                      Cancel
+                    </app-button>
+                  }
+                </div>
               </div>
             </div>
           </form>
@@ -165,7 +172,7 @@
       </tbody>
     </table>
   </div>
-  <div class="flex items-center flex-col sm:flex-row justify-between border-t border-gray-200 px-5 py-4 dark:border-gray-800">
+  <div class="flex items-center flex-col sm:flex-row justify-between border-t border-gray-200 px-5 py-4 dark:border-gray-800" [style]="disabled() ? 'display: none;' : ''">
     <div class="pb-3 sm:pb-0"><span class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Showing   <span class="text-gray-800 dark:text-white/90">{{baseTypesList().result.length}}</span> of <span class="text-gray-800 dark:text-white/90">{{baseTypesList().paginationHeader.TotalItemCount}}</span></span>
     </div>
     <div class="flex w-full items-center justify-between gap-2 rounded-lg bg-gray-50 p-4 sm:w-auto sm:justify-normal sm:rounded-none sm:bg-transparent sm:p-0 dark:bg-gray-900 dark:sm:bg-transparent">

@@ -33,7 +33,7 @@ export class BaseTypesComponent {
 
 
 
-  operation ='edit'
+  operation =signal<string>('edit');
 
   goodService = inject(GoodsService);
   location = inject(LocationStrategy);
@@ -74,13 +74,13 @@ export class BaseTypesComponent {
   }
 
   protected EditBase(baseItem: BaseItem) {
-    this.operation = 'edit'
+    this.operation.set('edit')
     this.filterTableById(baseItem.id);
     this.disabled.set(true);
     this.baseId.set(baseItem.id)
   }
   protected NewBase() {
-    this.operation = 'new'
+    this.operation.set('new')
     this.baseId.set(0);
     this.disabled.set(true);
   }
@@ -88,7 +88,7 @@ export class BaseTypesComponent {
 
   protected Save() {
     let results;
-    if(this.operation == 'new'){
+    if(this.operation() == 'new'){
 
       results= this.goodService.createBaseItem(this.editableItem())
       results.subscribe( (data) => {
@@ -121,5 +121,10 @@ export class BaseTypesComponent {
       const isMatch =val.id == filterValue
       this.tableList()[index].nativeElement.hidden = !isMatch
     })
+  }
+
+  protected Cancel() {
+    this.disabled.set(false);
+    this.filterTableByString('');
   }
 }
