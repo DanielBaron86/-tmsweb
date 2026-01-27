@@ -16,7 +16,7 @@ jobs:
         with: 
           fetch-depth: 0
       - run: "sonar \
-              -Dsonar.host.url=${{ secrets.SONAR_TOKEN }} \
+              -Dsonar.host.url=https://sonarqube.danielsplaygrounds.com \
               -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
               -Dsonar.projectKey=tmsweb"
 
